@@ -561,7 +561,7 @@
       }
 
       function detectLang() {
-        const params = new URLSearchParams(window.location.href);
+        const params = new URLSearchParams(window.location.search);
         const paramLang = params.get("lang");
         if (supportedLangs.includes(paramLang)) return paramLang;
         const stored = localStorage.getItem("preferredLang");
