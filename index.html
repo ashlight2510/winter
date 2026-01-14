@@ -484,7 +484,8 @@
       function pick(type) {
         score[type] = (score[type] || 0) + 1;
         index++;
-        if (index >= QUESTIONS.length) return showResult();
+        const questions = getPack().questions;
+        if (index >= questions.length) return showResult();
         render();
       }
 
