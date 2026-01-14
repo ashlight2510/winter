@@ -110,14 +110,20 @@
   <body class="text-slate-100 min-h-screen">
     <main class="max-w-4xl mx-auto px-4 py-10">
       <!-- Header -->
-      <header class="flex items-center justify-between mb-8">
-        <h1 class="text-xl font-bold tracking-tight">❄️ Winter Check</h1>
+      <header class="flex flex-wrap items-center justify-between gap-3 mb-8">
+        <h1 class="text-xl font-bold tracking-tight" data-i18n="headerTitle">
+          ❄️ Winter Check
+        </h1>
+        <div class="flex items-center gap-3">
+          <div class="lang-switch" role="tablist" aria-label="Language switcher">
+            <button type="button" data-lang="ko" class="active">한국어</button>
+            <button type="button" data-lang="en">English</button>
+          </div>
         <a
           href="https://funnyfunny.cloud/"
           class="text-sm px-4 py-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition"
-        >
-          다른 서비스 보기 ↗
-        </a>
+          data-i18n="viewMore">다른 서비스 보기 ↗</a>
+        </div>
       </header>
 
       <!-- Intro -->
@@ -125,10 +131,13 @@
         id="intro"
         class="bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-10"
       >
-        <h2 class="text-3xl sm:text-4xl font-extrabold leading-tight">
+        <h2
+          class="text-3xl sm:text-4xl font-extrabold leading-tight"
+          data-i18n-html="introTitle"
+        >
           이번 겨울,<br />나를 망치는 것 TOP 1
         </h2>
-        <p class="mt-4 text-slate-300 leading-relaxed">
+        <p class="mt-4 text-slate-300 leading-relaxed" data-i18n-html="introDesc">
           추위 때문이라고 생각했지만,<br />
           사실은
           <span class="text-white font-semibold">매년 반복되는 패턴</span>일 수
@@ -144,6 +153,7 @@
         <button
           id="startBtn"
           class="mt-6 w-full py-4 rounded-2xl bg-white text-slate-900 font-extrabold text-lg hover:bg-slate-200 transition"
+          data-i18n="startButton"
         >
           시작하기 (1분)
         </button>
@@ -157,11 +167,13 @@
         <div
           class="flex justify-between items-center mb-4 text-sm text-slate-300"
         >
-          <span>진행</span>
+          <span data-i18n="progressLabel">진행</span>
           <span><span id="qIndex">1</span> / 8</span>
         </div>
 
-        <h3 id="question" class="text-2xl font-extrabold mb-6">질문</h3>
+        <h3 id="question" class="text-2xl font-extrabold mb-6" data-i18n="questionPlaceholder">
+          질문
+        </h3>
 
         <div id="answers" class="grid gap-3">
           <!-- injected -->
@@ -185,100 +197,257 @@
         <p id="resultDesc" class="text-slate-200 leading-relaxed mb-4"></p>
 
         <div class="bg-white/5 border border-white/10 rounded-2xl p-4 mb-5">
-          <p class="text-sm text-slate-300 mb-1">🔥 오늘 할 단 하나</p>
+          <p class="text-sm text-slate-300 mb-1" data-i18n="actionLabel">
+            🔥 오늘 할 단 하나
+          </p>
           <p id="resultAction" class="font-bold text-lg"></p>
         </div>
 
         <div class="bg-white/5 border border-white/10 rounded-2xl p-4 mb-5">
-          <p class="text-sm text-slate-300 mb-1">📢 공유 문구</p>
+          <p class="text-sm text-slate-300 mb-1" data-i18n="shareLabel">
+            📢 공유 문구
+          </p>
           <p id="shareText" class="font-semibold"></p>
         </div>
 
         <button
           id="restartBtn"
           class="w-full py-3 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition"
-        >
-          다시 해보기
-        </button>
+        data-i18n="restartButton">다시 해보기</button>
       </section>
     </main>
 
-    <script>
-      const QUESTIONS = [
-        {
-          q: "겨울에 가장 먼저 무너지는 건?",
-          a: ["체력", "의욕", "생활리듬", "멘탈"],
-          t: ["cold", "bed", "bed", "emotion"],
-        },
-        {
-          q: "겨울에 가장 늘어나는 행동은?",
-          a: ["침대", "배달", "핸드폰", "아무것도 안함"],
-          t: ["bed", "cold", "dopamine", "emotion"],
-        },
-        {
-          q: "요즘 가장 자주 드는 생각은?",
-          a: ["이불밖 위험", "올해도 끝", "봄에 하자", "왜 이러지"],
-          t: ["bed", "emotion", "dopamine", "emotion"],
-        },
-        {
-          q: "겨울 인간관계는?",
-          a: ["거의 없음", "억지로", "필요한 사람만", "정리 중"],
-          t: ["emotion", "emotion", "stable", "stable"],
-        },
-        {
-          q: "겨울 소비는?",
-          a: ["배달", "난방비", "충동구매", "안씀"],
-          t: ["bed", "cold", "dopamine", "stable"],
-        },
-        {
-          q: "수면 패턴은?",
-          a: ["너무 잠", "늦잠", "불규칙", "안정"],
-          t: ["bed", "bed", "emotion", "stable"],
-        },
-        {
-          q: "계획 세우면?",
-          a: ["귀찮다", "메모만", "머릿속", "조금 실행"],
-          t: ["emotion", "emotion", "dopamine", "stable"],
-        },
-        {
-          q: "지금 상태는?",
-          a: ["멈춤", "가라앉음", "버팀", "정리"],
-          t: ["bed", "emotion", "cold", "stable"],
-        },
-      ];
+    <style>
+      .lang-switch {
+        display: inline-flex;
+        gap: 6px;
+        padding: 4px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+      }
+      .lang-switch button {
+        border: none;
+        background: transparent;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 12px;
+        font-weight: 700;
+        padding: 6px 12px;
+        border-radius: 999px;
+        cursor: pointer;
+        letter-spacing: 0.08em;
+      }
+      .lang-switch button.active {
+        background: #38bdf8;
+        color: #0b1120;
+      }
+    </style>
 
-      const RESULTS = {
-        cold: {
-          title: "🥶 체온 저하형",
-          desc: "당신의 문제는 의지가 아니라 체온입니다. 몸이 식으면 모든 게 같이 식습니다.",
-          action: "따뜻한 물 2컵 + 햇빛 10분",
-          img: "https://loremflickr.com/800/400/winter,sunlight?lock=1",
+    <script>
+      const translations = {
+        ko: {
+          metaTitle: "이번 겨울, 나를 망치는 것 TOP 1",
+          headerTitle: "❄️ Winter Check",
+          viewMore: "다른 서비스 보기 ↗",
+          introTitle: "이번 겨울,<br />나를 망치는 것 TOP 1",
+          introDesc:
+            "추위 때문이라고 생각했지만,<br />사실은 <span class=\"text-white font-semibold\">매년 반복되는 패턴</span>일 수 있습니다.",
+          startButton: "시작하기 (1분)",
+          progressLabel: "진행",
+          questionPlaceholder: "질문",
+          actionLabel: "🔥 오늘 할 단 하나",
+          shareLabel: "📢 공유 문구",
+          restartButton: "다시 해보기",
+          shareText: "이번 겨울, 나를 망치는 건 추위가 아니라 {title}",
+          questions: [
+            {
+              q: "겨울에 가장 먼저 무너지는 건?",
+              a: ["체력", "의욕", "생활리듬", "멘탈"],
+              t: ["cold", "bed", "bed", "emotion"],
+            },
+            {
+              q: "겨울에 가장 늘어나는 행동은?",
+              a: ["침대", "배달", "핸드폰", "아무것도 안함"],
+              t: ["bed", "cold", "dopamine", "emotion"],
+            },
+            {
+              q: "요즘 가장 자주 드는 생각은?",
+              a: ["이불밖 위험", "올해도 끝", "봄에 하자", "왜 이러지"],
+              t: ["bed", "emotion", "dopamine", "emotion"],
+            },
+            {
+              q: "겨울 인간관계는?",
+              a: ["거의 없음", "억지로", "필요한 사람만", "정리 중"],
+              t: ["emotion", "emotion", "stable", "stable"],
+            },
+            {
+              q: "겨울 소비는?",
+              a: ["배달", "난방비", "충동구매", "안씀"],
+              t: ["bed", "cold", "dopamine", "stable"],
+            },
+            {
+              q: "수면 패턴은?",
+              a: ["너무 잠", "늦잠", "불규칙", "안정"],
+              t: ["bed", "bed", "emotion", "stable"],
+            },
+            {
+              q: "계획 세우면?",
+              a: ["귀찮다", "메모만", "머릿속", "조금 실행"],
+              t: ["emotion", "emotion", "dopamine", "stable"],
+            },
+            {
+              q: "지금 상태는?",
+              a: ["멈춤", "가라앉음", "버팀", "정리"],
+              t: ["bed", "emotion", "cold", "stable"],
+            },
+          ],
+          results: {
+            cold: {
+              title: "🥶 체온 저하형",
+              desc:
+                "당신의 문제는 의지가 아니라 체온입니다. 몸이 식으면 모든 게 같이 식습니다.",
+              action: "따뜻한 물 2컵 + 햇빛 10분",
+              img: "https://loremflickr.com/800/400/winter,sunlight?lock=1",
+            },
+            bed: {
+              title: "🛌 이불 잠식형",
+              desc:
+                "이불은 휴식이 아니라 도피처가 됐습니다. 시간이 가장 많이 사라집니다.",
+              action: "기상 후 창문 열고 5분 서 있기",
+              img: "https://loremflickr.com/800/400/bed,window,winter?lock=2",
+            },
+            dopamine: {
+              title: "📱 도파민 동면형",
+              desc:
+                "겨울엔 자극이 아니라 구조가 필요합니다. 스크롤이 하루를 삼킵니다.",
+              action: "앱 1개만 오늘 차단",
+              img: "https://loremflickr.com/800/400/phone,dark?lock=3",
+            },
+            emotion: {
+              title: "🧊 감정 냉각형",
+              desc: "혼자 있는 게 아니라, 닫혀 있는 상태입니다.",
+              action: "가장 편한 사람 1명에게 안부",
+              img: "https://loremflickr.com/800/400/winter,alone?lock=4",
+            },
+            stable: {
+              title: "❄️ 겨울 안정형",
+              desc: "겨울을 비교적 잘 버티고 있습니다. 다만 방심은 금물.",
+              action: "지금 루틴 하나만 유지",
+              img: "https://loremflickr.com/800/400/winter,calm?lock=5",
+            },
+          },
         },
-        bed: {
-          title: "🛌 이불 잠식형",
-          desc: "이불은 휴식이 아니라 도피처가 됐습니다. 시간이 가장 많이 사라집니다.",
-          action: "기상 후 창문 열고 5분 서 있기",
-          img: "https://loremflickr.com/800/400/bed,window,winter?lock=2",
-        },
-        dopamine: {
-          title: "📱 도파민 동면형",
-          desc: "겨울엔 자극이 아니라 구조가 필요합니다. 스크롤이 하루를 삼킵니다.",
-          action: "앱 1개만 오늘 차단",
-          img: "https://loremflickr.com/800/400/phone,dark?lock=3",
-        },
-        emotion: {
-          title: "🧊 감정 냉각형",
-          desc: "혼자 있는 게 아니라, 닫혀 있는 상태입니다.",
-          action: "가장 편한 사람 1명에게 안부",
-          img: "https://loremflickr.com/800/400/winter,alone?lock=4",
-        },
-        stable: {
-          title: "❄️ 겨울 안정형",
-          desc: "겨울을 비교적 잘 버티고 있습니다. 다만 방심은 금물.",
-          action: "지금 루틴 하나만 유지",
-          img: "https://loremflickr.com/800/400/winter,calm?lock=5",
+        en: {
+          metaTitle: "This Winter, What Breaks You First?",
+          headerTitle: "❄️ Winter Check",
+          viewMore: "View other services ↗",
+          introTitle: "This Winter,<br />What Breaks You First?",
+          introDesc:
+            "You thought it was the cold,<br />but it may be a <span class=\"text-white font-semibold\">pattern that repeats every year</span>.",
+          startButton: "Start (1 min)",
+          progressLabel: "Progress",
+          questionPlaceholder: "Question",
+          actionLabel: "🔥 One thing to do today",
+          shareLabel: "📢 Share text",
+          restartButton: "Try again",
+          shareText: "This winter, what breaks me is not the cold but {title}",
+          questions: [
+            {
+              q: "What falls apart first in winter?",
+              a: ["Energy", "Motivation", "Routine", "Mindset"],
+              t: ["cold", "bed", "bed", "emotion"],
+            },
+            {
+              q: "What increases the most in winter?",
+              a: ["Staying in bed", "Delivery", "Phone time", "Doing nothing"],
+              t: ["bed", "cold", "dopamine", "emotion"],
+            },
+            {
+              q: "Which thought shows up the most lately?",
+              a: ["Outside is risky", "Another year is over", "Do it in spring", "What is wrong with me"],
+              t: ["bed", "emotion", "dopamine", "emotion"],
+            },
+            {
+              q: "Your winter relationships?",
+              a: ["Almost none", "Forced", "Only needed people", "Cleaning up"],
+              t: ["emotion", "emotion", "stable", "stable"],
+            },
+            {
+              q: "Winter spending looks like?",
+              a: ["Delivery", "Heating bills", "Impulse buys", "Not spending"],
+              t: ["bed", "cold", "dopamine", "stable"],
+            },
+            {
+              q: "Your sleep pattern?",
+              a: ["Way too much", "Late mornings", "Irregular", "Stable"],
+              t: ["bed", "bed", "emotion", "stable"],
+            },
+            {
+              q: "When you make a plan?",
+              a: ["Too lazy", "Only memo it", "In my head", "Execute a bit"],
+              t: ["emotion", "emotion", "dopamine", "stable"],
+            },
+            {
+              q: "Right now you feel?",
+              a: ["Paused", "Sinking", "Holding on", "Sorting out"],
+              t: ["bed", "emotion", "cold", "stable"],
+            },
+          ],
+          results: {
+            cold: {
+              title: "🥶 Low Temperature Type",
+              desc:
+                "The issue is not willpower but body temperature. When your body cools down, everything else does too.",
+              action: "Two cups of warm water + 10 minutes of sunlight",
+              img: "https://loremflickr.com/800/400/winter,sunlight?lock=1",
+            },
+            bed: {
+              title: "🛌 Blanket Swallowed",
+              desc:
+                "The blanket is no longer rest, it is escape. Time disappears there.",
+              action: "Stand by an open window for 5 minutes after waking",
+              img: "https://loremflickr.com/800/400/bed,window,winter?lock=2",
+            },
+            dopamine: {
+              title: "📱 Dopamine Hibernator",
+              desc:
+                "Winter needs structure, not more stimulation. Scrolling eats the day.",
+              action: "Block one app for today",
+              img: "https://loremflickr.com/800/400/phone,dark?lock=3",
+            },
+            emotion: {
+              title: "🧊 Emotion Cooling Type",
+              desc: "You are not alone, you are closed off.",
+              action: "Check in with one comfortable person",
+              img: "https://loremflickr.com/800/400/winter,alone?lock=4",
+            },
+            stable: {
+              title: "❄️ Winter Stable",
+              desc:
+                "You are handling winter fairly well. Just do not get too relaxed.",
+              action: "Keep one routine steady",
+              img: "https://loremflickr.com/800/400/winter,calm?lock=5",
+            },
+          },
         },
       };
+
+      const defaultLang = "en";
+      const supportedLangs = ["ko", "en"];
+      let currentLang = defaultLang;
+
+      function getPack() {
+        return translations[currentLang] || translations.ko;
+      }
+
+      function t(key, vars = {}) {
+        const pack = getPack();
+        const template = pack[key] ?? translations.ko[key] ?? key;
+        if (typeof template !== "string") return template;
+        return template.replace(/\{(\w+)\}/g, (_, token) =>
+          vars[token] !== undefined ? vars[token] : `{${token}}`
+        );
+      }
 
       let index = 0;
       let score = {};
@@ -298,7 +467,7 @@
       };
 
       function render() {
-        const q = QUESTIONS[index];
+        const q = getPack().questions[index];
         qIndexEl.textContent = index + 1;
         qEl.textContent = q.q;
         aEl.innerHTML = "";
@@ -323,16 +492,91 @@
         quiz.classList.add("hidden");
         result.classList.remove("hidden");
         const top = Object.keys(score).sort((a, b) => score[b] - score[a])[0];
-        const r = RESULTS[top];
+        const r = getPack().results[top];
         document.getElementById("resultTitle").textContent = r.title;
         document.getElementById("resultDesc").textContent = r.desc;
         document.getElementById("resultAction").textContent = r.action;
         document.getElementById("resultImg").src = r.img;
         document.getElementById(
           "shareText"
-        ).textContent = `이번 겨울, 나를 망치는 건 추위가 아니라 ${r.title}`;
+        ).textContent = t("shareText", { title: r.title });
       }
       document.getElementById("restartBtn").onclick = () => location.reload();
+
+      function applyTranslations() {
+        document.title = t("metaTitle");
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          el.textContent = t(el.dataset.i18n);
+        });
+        document.querySelectorAll("[data-i18n-html]").forEach((el) => {
+          const key = el.dataset.i18nHtml;
+          const value = t(key);
+          if (value && value !== key) {
+            el.innerHTML = value;
+          }
+        });
+      }
+
+      function setLang(lang, options = {}) {
+        const nextLang = translations[lang] ? lang : defaultLang;
+        currentLang = nextLang;
+        document.documentElement.lang = nextLang;
+        localStorage.setItem("preferredLang", nextLang);
+        document.querySelectorAll(".lang-switch button").forEach((button) => {
+          button.classList.toggle("active", button.dataset.lang === nextLang);
+        });
+        applyTranslations();
+        if (options.updateUrl) {
+          const url = new URL(window.location.href);
+          url.searchParams.set("lang", nextLang);
+          window.history.replaceState({}, "", url);
+        }
+        if (!intro.classList.contains("hidden")) {
+          return;
+        }
+        if (!quiz.classList.contains("hidden")) {
+          render();
+          return;
+        }
+        if (!result.classList.contains("hidden")) {
+          showResult();
+        }
+      }
+
+      function getRegionPreferredLang(fallback = defaultLang) {
+        const intlLocale =
+          typeof Intl === "object" && typeof Intl.DateTimeFormat === "function"
+            ? Intl.DateTimeFormat().resolvedOptions().locale
+            : "";
+        const sources = [
+          ...(navigator.languages || []),
+          navigator.language,
+          navigator.userLanguage,
+          intlLocale,
+        ]
+          .filter(Boolean)
+          .map((locale) => locale.toLowerCase());
+        const hasKorean = sources.some((locale) => locale.startsWith("ko"));
+        return hasKorean ? "ko" : fallback;
+      }
+
+      function detectLang() {
+        const params = new URLSearchParams(window.location.href);
+        const paramLang = params.get("lang");
+        if (supportedLangs.includes(paramLang)) return paramLang;
+        const stored = localStorage.getItem("preferredLang");
+        if (supportedLangs.includes(stored)) return stored;
+        const candidate = getRegionPreferredLang(defaultLang);
+        return supportedLangs.includes(candidate) ? candidate : defaultLang;
+      }
+
+      document.querySelectorAll(".lang-switch button").forEach((button) => {
+        button.addEventListener("click", () => {
+          setLang(button.dataset.lang, { updateUrl: true });
+        });
+      });
+
+      setLang(detectLang(), { updateUrl: false });
     </script>
 
     <ins
